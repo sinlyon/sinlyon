@@ -14,4 +14,3 @@ def hello(request):
     context['users'] = ["sinlyon", "amanbo"]
     context["date"] = time.time()
     return render(request, 'hello.html', context)
-    # return ren

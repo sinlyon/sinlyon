@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'HelloWorld.Models',
 ]
 
 MIDDLEWARE = [
@@ -74,7 +75,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'sinlyon',
+        'NAME': 'test',
         'USER': 'root',
         'PASSWORD': 'leadder@123',
         'HOST': '192.168.1.212',
