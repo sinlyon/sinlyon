@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+<h1>{{ hello }}</h1>
+{% if "a" in str1 %}
+    <h2>a in {{ str1 }}</h2>
+{% endif %}
+<h2>日期：{{ date|date:"Y-m-d" }}</h2>
+{% for user in users %}
+    {# <h2>users: {{ user }}</h2> #}
+    {% ifequal user "sinlyon" %}
+        <h2>前三个字母大写：{{ user|truncatechars:"6"|upper }} is good man. </h2>
+        <h2>首字母大写：{{ user|title }}</h2>
+    {% endifequal %}
+{% endfor %}
+{# 这只是个注释 #}
+</body>
+</html>
