@@ -18,9 +18,14 @@ from django.urls import path
 
 from . import user
 from . import view
+from . import search
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', view.hello),
-    path('user/', user.user),
+    path('users/', user.users),
+    path('get_form/', search.get_form),
+    path('post_form/', search.post_form),
+    path('search_get/', search.search_get),
+    path('search_post/', search.search_post)
 ]

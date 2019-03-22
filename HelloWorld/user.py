@@ -15,29 +15,94 @@ def add_user(user):
 
 
 def get_user(user):
-    return models.User.objects.filter(user_name="sinlyon")
+    user = models.User.objects.get(user_id=user.user_id)
+    response = """<h2> 姓名: %s </h2>
+        <h2> 年龄: %d </h2>
+        <h2> 生日: %s </h2>
+        <h2> 地址: %s </h2>""" % (user.user_name, user.user_age, user.user_birthday, user.user_addr)
+    return response
 
 
-def get_users(user):
-    return user.objects.all()
+def get_users():
+    # 获取前3条数据，与limit 3
+    # users = models.User.objects.all()[0:3]
+    users = models.User.objects.all()
+    # 根据user_id排序
+    # users = models.User.objects.all().order_by("user_id")[0:3]
+    # response = ""
+    # for user in users:
+    #     temp = """<h2> 姓名: %s</h2>
+    #     <h2> 年龄: %d</h2>
+    #     <h2> 生日: %s</h2>
+    #     <h2> 地址: %s</h2>
+    #     """ % (user.user_name, user.user_age, user.user_birthday, user.user_addr)
+    #     response += temp
+    return users
 
 
 def mod_user(user):
-    pass
+    old_user = models.User.objects.get(user_id=user.user_id)
+    old_user.user_name = user.user_name
+    old_user.user_age = user.user_age
+    old_user.save()
+    response = """新用户信息：<br>
+    <h2> 姓名: %s</h2>
+    <h2> 年龄: %d</h2>
+    <h2> 生日: %s</h2>
+    <h2> 地址: %s</h2> 
+    """ % (old_user.user_name, old_user.user_age, old_user.user_birthday, old_user.user_addr)
+    return response
 
 
 def del_user(user):
-    pass
+    try:
+        user = models.User.objects.get(user_id=user.user_id)
+    except Exception:
+        response = "<h2>用户不存在</h2>"
+    if not user:
+        user.delete()
+        response = """删除用户信息：<br>
+        <h2> 姓名: %s</h2>
+        <h2> 年龄: %d</h2>
+        <h2> 生日: %s</h2>
+        <h2> 地址: %s</h2> 
+        """ % (user.user_name, user.user_age, user.user_birthday, user.user_addr)
+    return response
 
 
-def user(request):
-    action = {"GET": get_user, "POST": add_user, "PUT": mod_user, "DELETE": del_user}
+def users(request):
+    # action = {"GET": get_user, "POST": add_user, "PUT": mod_user, "DELETE": del_user}
     # user = models.User()
     # user.user_name = "sinlyon"
     # user.user_age = 18
     # user.user_birthday = time.strftime("%Y-%m-%d %H:%M:%S")
     # user.user_addr = "广东省深圳市"
+    # 添加用户
     # add_user(user)
-    result = action[request.method](None)
-    # return HttpResponse(result)
-    return render(request, "users.html", result)
+
+    # 获取单个用户 user_id==1
+    # user = models.User()
+    # user.user_id = 1
+    # response = action[request.method](user)
+
+    # 用户列表
+    users = get_users()
+    for user in users:
+        print(user.user_id)
+
+    # 修改id==2的用户
+    # user = models.User()
+    # user.user_id = 2
+    # user.user_name = "xingliang"
+    # user.user_age = 20
+    # response = mod_user(user)
+
+    # 删除id==9的用户
+    # user = models.User()
+    # user.user_id = 9
+    # response = del_user(user)
+    # return HttpResponse(response)
+    # context = {"users": response}
+    user_list = {"users": users}
+    return HttpResponse
+    return render(request, "users.html", user_list)
